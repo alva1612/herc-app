@@ -3,7 +3,7 @@ import 'package:namer_app/domain/entities/exercise.dart';
 class TempSession {
   final DateTime dateRegistered;
   final String uuid;
-  final int weight;
+  final String weight;
   final Exercise exercise;
   final int repetitions;
 
@@ -46,7 +46,7 @@ class TempSessionCreateData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String,dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['weight'] = weight;
     data['repetitions'] = repetitions;
     data['exerciseUuid'] = exerciseUuid;

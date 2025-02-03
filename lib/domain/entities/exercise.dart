@@ -1,5 +1,5 @@
 class Exercise {
-  final String uuid;
+  final String? uuid;
   final String name;
   final String? description;
 

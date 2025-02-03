@@ -6,6 +6,5 @@ class MainProvider extends ChangeNotifier{
   List<TempSession> sessions = [];
 
   Future<void> getSessions() async {
-
   }
 }
