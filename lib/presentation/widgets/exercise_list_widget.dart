@@ -42,17 +42,18 @@ class _ExerciseListState extends State<ExerciseList> {
           }
           List<Exercise> loadedExercises = snapshot.data as List<Exercise>;
           return Expanded(
-              child: ListView.separated(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (context, index) => ExerciseRow(exercise: snapshot.data![index]),
-              
-            
-            itemCount: loadedExercises.length,
-            separatorBuilder: (context, index) => SizedBox(
-              height: 10,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (context, index) =>
+                  ExerciseRow(exercise: snapshot.data![index]),
+              itemCount: loadedExercises.length,
+              separatorBuilder: (context, index) => SizedBox(
+                height: 16,
+              ),
             ),
-          ));
+          );
         });
   }
 }
@@ -78,7 +79,15 @@ class ExerciseRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(exercise.name),
+                  Text(
+                    exercise.name,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelLarge,
+                  ),
+                  SizedBox(
+                    height: 6,
+                  ),
                   Text(exercise.description ?? '')
                 ],
               ))),

@@ -15,11 +15,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Namer App',
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.tealAccent),
-      ),
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.tealAccent),
+          textTheme: Theme.of(context)
+              .textTheme
+              .apply(bodyColor: Colors.white, displayColor: Colors.white38)),
       darkTheme: ThemeData(
-        brightness: Brightness.dark
+        brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.dark,
       home: MyHomePage(),
@@ -65,23 +67,15 @@ class _MyHomePageState extends State<MyHomePage> {
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
-    ScreenConfiguration config = configs[selectedIndex] ?? configs[-1]!;
-    var screenTitle = config.title;
+    // ScreenConfiguration config = configs[selectedIndex] ?? configs[-1]!;
+    // var screenTitle = config.title;
 
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            screenTitle,
-            style: TextStyle(fontWeight: FontWeight.w200),
-          ),
-          centerTitle: true,
-        ),
         body: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            SafeArea(
-              child: NavigationRail(
+             NavigationRail(
                 extended: constraints.maxWidth >= 600,
                 destinations: [
                   const NavigationRailDestination(
@@ -103,12 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   print('selected: $value');
                 },
               ),
-            ),
             Expanded(
               child: Container(
-
-                color: Theme.of(context).colorScheme.primaryContainer,
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                padding: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 24),
                 child: page,
               ),
             ),
