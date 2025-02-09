@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/presentation/screens/add_session_screen.dart';
+import 'package:namer_app/presentation/screens/exercises_screen.dart';
 import 'package:namer_app/presentation/screens/history_screen.dart';
 
 void main() {
@@ -17,6 +18,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.tealAccent),
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark
+      ),
+      themeMode: ThemeMode.dark,
       home: MyHomePage(),
     );
   }
@@ -29,6 +34,21 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class ScreenConfiguration {
+  const ScreenConfiguration({
+    required this.title,
+  });
+
+  final String title;
+}
+
+const configs = <int, ScreenConfiguration>{
+  -1: ScreenConfiguration(title: 'NO-TITLE'),
+  0: ScreenConfiguration(title: 'Nueva Sesión'),
+  1: ScreenConfiguration(title: 'Historial'),
+  2: ScreenConfiguration(title: 'Ejercicios'),
+};
+
 class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
 
@@ -40,12 +60,23 @@ class _MyHomePageState extends State<MyHomePage> {
         page = AddSessionScreen();
       case 1:
         page = HistoryScreen();
+      case 2:
+        page = ExercisesScreen();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
+    ScreenConfiguration config = configs[selectedIndex] ?? configs[-1]!;
+    var screenTitle = config.title;
 
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            screenTitle,
+            style: TextStyle(fontWeight: FontWeight.w200),
+          ),
+          centerTitle: true,
+        ),
         body: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -53,14 +84,16 @@ class _MyHomePageState extends State<MyHomePage> {
               child: NavigationRail(
                 extended: constraints.maxWidth >= 600,
                 destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
+                  const NavigationRailDestination(
+                    icon: Icon(Icons.fitness_center),
                     label: Text('Home'),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
+                  const NavigationRailDestination(
+                    icon: Icon(Icons.history),
                     label: Text('Favorites'),
                   ),
+                  const NavigationRailDestination(
+                      icon: Icon(Icons.settings), label: Text('Settings'))
                 ],
                 selectedIndex: selectedIndex,
                 onDestinationSelected: (value) {
@@ -73,8 +106,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               child: Container(
+
                 color: Theme.of(context).colorScheme.primaryContainer,
-                padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                 child: page,
               ),
             ),

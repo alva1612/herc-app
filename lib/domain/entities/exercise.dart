@@ -16,3 +16,29 @@ class Exercise {
       description: json['description']
     );
 }
+
+class ExerciseCreateData {
+  String? name;
+  String? description;
+
+
+  ExerciseCreateData({
+    this.description,
+    this.name,
+  });
+
+  setName(String n) {
+    name = n;
+  }
+
+  setDescription(String desc) {
+    description = desc;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['description'] = description;
+    return data;
+  }
+}
