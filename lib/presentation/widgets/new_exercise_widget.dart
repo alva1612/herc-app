@@ -24,15 +24,15 @@ class _NewExerciseFormState extends State<NewExerciseForm> {
     var setName = formState.setName;
     var create = formState.createExercise;
     var clear = formState.clear;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: Color.fromRGBO(25, 33, 38, 0.5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
             decoration: InputDecoration(labelText: "Nombre"),
-            keyboardType: TextInputType.number,
             onChanged: (event) {
               try {
                 setName(event);
@@ -43,7 +43,6 @@ class _NewExerciseFormState extends State<NewExerciseForm> {
           ),
           TextFormField(
             decoration: InputDecoration(labelText: "Descripción"),
-            keyboardType: TextInputType.number,
             onChanged: (event) {
               try {
                 setDescription(event);

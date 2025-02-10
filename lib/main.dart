@@ -75,32 +75,33 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-             NavigationRail(
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  const NavigationRailDestination(
-                    icon: Icon(Icons.fitness_center),
-                    label: Text('Home'),
-                  ),
-                  const NavigationRailDestination(
-                    icon: Icon(Icons.history),
-                    label: Text('Favorites'),
-                  ),
-                  const NavigationRailDestination(
-                      icon: Icon(Icons.settings), label: Text('Settings'))
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                  print('selected: $value');
-                },
-              ),
+            NavigationRail(
+              extended: constraints.maxWidth >= 600,
+              destinations: [
+                const NavigationRailDestination(
+                  icon: Icon(Icons.fitness_center),
+                  label: Text('Home'),
+                ),
+                const NavigationRailDestination(
+                  icon: Icon(Icons.history),
+                  label: Text('Favorites'),
+                ),
+                const NavigationRailDestination(
+                    icon: Icon(Icons.settings), label: Text('Settings'))
+              ],
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (value) {
+                setState(() {
+                  selectedIndex = value;
+                });
+                print('selected: $value');
+              },
+            ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(top: 10),
                 margin: EdgeInsets.only(top: 24),
+                color: Color.fromRGBO(25, 33, 38, 1),
                 child: page,
               ),
             ),

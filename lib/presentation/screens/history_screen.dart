@@ -19,13 +19,9 @@ class HistoryScreen extends StatelessWidget {
 }
 
 class HistoryList extends StatefulWidget {
-
   const HistoryList({
     super.key,
-    this.listType
   });
-
-  final String? listType;
 
   @override
   State<HistoryList> createState() => _HistoryListState();
@@ -34,11 +30,10 @@ class HistoryList extends StatefulWidget {
 class _HistoryListState extends State<HistoryList> {
   late Future<List<TempSession>> sessions;
 
-
   @override
   void initState() {
     super.initState();
-    sessions = GetSessions().getSessions('today');
+    sessions = GetSessions().getSessions(null);
   }
 
   @override

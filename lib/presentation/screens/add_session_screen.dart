@@ -4,7 +4,7 @@ import 'package:namer_app/config/helpers/get_exercises.dart';
 import 'package:namer_app/config/helpers/get_sessions.dart';
 import 'package:namer_app/domain/entities/exercise.dart';
 import 'package:namer_app/domain/entities/temp_sessions.dart';
-import 'package:namer_app/presentation/screens/history_screen.dart';
+import 'package:namer_app/presentation/widgets/history_list_widget.dart';
 import 'package:provider/provider.dart';
 
 class LastSessionByExerciseResult {
@@ -79,7 +79,7 @@ class AddSessionScreen extends StatelessWidget {
         children: [
           AddSessionForm(),
           Expanded(
-            child: HistoryList(),
+            child: TodayHistoryList(),
           )
         ],
       ),
@@ -89,7 +89,6 @@ class AddSessionScreen extends StatelessWidget {
 
 class _AddSessionFormState extends State<AddSessionForm> {
   late Future<List<Exercise>> exercises;
-
   @override
   void initState() {
     super.initState();
@@ -222,5 +221,39 @@ class ExercsisesDropDown extends StatelessWidget {
             child: Text(ex.name),
           );
         }).toList());
+  }
+}
+
+class TodayHistoryList extends StatefulWidget {
+  const TodayHistoryList({
+    super.key,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _TodayHistoryListState();
+}
+
+class _TodayHistoryListState extends State {
+  late Future<List<TempSession>> sessions;
+
+  @override
+  void initState() {
+    super.initState();
+    sessions = GetSessions().getSessions('today');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: sessions,
+        builder: (contextFuture, snapshot) {
+          if (snapshot.hasError) {
+            return const Text('error');
+          }
+          if (!snapshot.hasData) {
+            return const Text('loading');
+          }
+          return HistoryListWidget(sessions: snapshot.data!);
+        });
   }
 }
