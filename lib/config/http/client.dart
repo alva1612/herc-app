@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:namer_app/config/env.dart';
 
 final options = BaseOptions(
-  baseUrl: 'https://herc-backend-core-production.up.railway.app/'
+  baseUrl: const String.fromEnvironment(EnvironmentKey.baseUrl)
 );
 
 final client = Dio(options);
