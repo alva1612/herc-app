@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/config/http/client.dart';
 import 'package:namer_app/presentation/screens/add_session_screen.dart';
 import 'package:namer_app/presentation/screens/exercises_screen.dart';
 import 'package:namer_app/presentation/screens/history_screen.dart';
@@ -67,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
+    print(options.baseUrl);
     // ScreenConfiguration config = configs[selectedIndex] ?? configs[-1]!;
     // var screenTitle = config.title;
 

@@ -1,14 +1,14 @@
 
 import 'package:flutter/material.dart';
-import 'package:namer_app/domain/entities/temp_sessions.dart';
+import 'package:namer_app/domain/entities/training_session_set.dart';
 
 class HistoryListWidget extends StatelessWidget {
   const HistoryListWidget({
     super.key,
-    required this.sessions,
+    required this.sets,
   });
 
-  final List<TempSession> sessions;
+  final List<TrainingSessionSet> sets;
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,10 @@ class HistoryListWidget extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       children: [
-        for (var session in sessions)
+        for (var set in sets)
           Row(
             mainAxisSize: MainAxisSize.max,
-            children: [Expanded(child: HistoryRow(session: session))],
+            children: [Expanded(child: HistoryRow(session: set))],
           )
       ],
     );
@@ -32,12 +32,12 @@ class HistoryRow extends StatelessWidget {
     required this.session,
   });
 
-  final TempSession session;
+  final TrainingSessionSet session;
 
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Expanded(child: Text(session.exercise.name)),
+      Expanded(child: Text(session.exercise.name ?? "")),
       Container(
         padding: const EdgeInsets.symmetric(vertical: 5),
         width: 40,

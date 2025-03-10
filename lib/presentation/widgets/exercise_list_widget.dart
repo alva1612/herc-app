@@ -26,6 +26,8 @@ class _ExerciseListState extends State<ExerciseList> {
   @override
   void initState() {
     super.initState();
+    print('--EXERCISE-LIST');
+    print('-----INIT-STATE');
     exercises = GetExercises().getExercises();
   }
 
@@ -34,6 +36,7 @@ class _ExerciseListState extends State<ExerciseList> {
     return FutureBuilder(
         future: exercises,
         builder: (contextFuture, snapshot) {
+          print(snapshot);
           if (snapshot.hasError) {
             return const Text('error');
           }
@@ -80,7 +83,7 @@ class ExerciseRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    exercise.name,
+                    exercise.name ?? "",
                     style: Theme.of(
                       context,
                     ).textTheme.labelLarge,

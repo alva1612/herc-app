@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/config/helpers/create_temp_session.dart';
 import 'package:namer_app/config/helpers/get_exercises.dart';
 import 'package:namer_app/config/helpers/get_sessions.dart';
+import 'package:namer_app/config/helpers/get_sets.dart';
 import 'package:namer_app/domain/entities/exercise.dart';
-import 'package:namer_app/domain/entities/temp_sessions.dart';
+import 'package:namer_app/domain/entities/training_session.dart';
+import 'package:namer_app/domain/entities/training_session_set.dart';
 import 'package:namer_app/presentation/widgets/history_list_widget.dart';
 import 'package:provider/provider.dart';
 
 class LastSessionByExerciseResult {
-  final TempSession? session;
+  final TrainingSessionOverload? session;
   final bool hasResult;
 
   const LastSessionByExerciseResult({this.session, required this.hasResult});
 }
 
 class AddSessionFormState extends ChangeNotifier {
-  TempSessionCreateData trainingSession = TempSessionCreateData();
-  Map<String, LastSessionByExerciseResult> lastSessionsByUuid = Map.from({});
+  TrainingSessionSetCreateData trainingSession = TrainingSessionSetCreateData();
+  Map<String, LastSessionByExerciseResult> lastSessionsByExerciseUuid =
+      Map.from({});
 
   Future<void> createExercise() async {
     var creationFuture = CreateTempSession().create(trainingSession);
@@ -25,17 +28,21 @@ class AddSessionFormState extends ChangeNotifier {
   }
 
   setSelectedExercise(String exerciseUuid) async {
-    trainingSession.setExercise(exerciseUuid);
-    if (lastSessionsByUuid[exerciseUuid] == null) {
+    trainingSession.setExercise(Exercise(uuid: exerciseUuid));
+    if (lastSessionsByExerciseUuid[exerciseUuid] == null) {
       var lastSession =
           await GetSessions().getLastSessionByExercise(exerciseUuid);
+          print('lastSession');
+          print(lastSession);
       if (lastSession != null) {
-        lastSessionsByUuid.addEntries(<String, LastSessionByExerciseResult>{
+        lastSessionsByExerciseUuid.addEntries(
+            <String, LastSessionByExerciseResult>{
           exerciseUuid:
               LastSessionByExerciseResult(session: lastSession, hasResult: true)
         }.entries);
       } else {
-        lastSessionsByUuid.addEntries(<String, LastSessionByExerciseResult>{
+        lastSessionsByExerciseUuid.addEntries(
+            <String, LastSessionByExerciseResult>{
           exerciseUuid: LastSessionByExerciseResult(hasResult: false)
         }.entries);
       }
@@ -53,11 +60,11 @@ class AddSessionFormState extends ChangeNotifier {
     notifyListeners();
   }
 
-  TempSession? getLastSessionByExercise() {
-    if (trainingSession.exerciseUuid == null) {
+  TrainingSessionOverload? getLastSessionByExercise() {
+    if (trainingSession.exercise?.uuid == null) {
       return null;
     }
-    return lastSessionsByUuid[trainingSession.exerciseUuid]?.session;
+    return lastSessionsByExerciseUuid[trainingSession.exercise!.uuid]?.session;
   }
 }
 
@@ -98,7 +105,7 @@ class _AddSessionFormState extends State<AddSessionForm> {
   @override
   Widget build(BuildContext context) {
     var formState = context.watch<AddSessionFormState>();
-    var selectedExercise = formState.trainingSession.exerciseUuid;
+    var selectedExercise = formState.trainingSession.exercise!.uuid;
     var setSelectedExercise = formState.setSelectedExercise;
     var setRepetitions = formState.setReps;
     var setWeight = formState.setWeight;
@@ -106,19 +113,36 @@ class _AddSessionFormState extends State<AddSessionForm> {
 
     var lastSession = formState.getLastSessionByExercise();
 
-    getRepetitionsInitialValue() {
-      if (lastSession?.repetitions == null) {
+    getMaxValuesLastSession() {
+      if (lastSession == null) {
         return null;
       }
-      try {
-        return lastSession!.repetitions.toString();
-      } catch (e) {
-        print(e.toString());
-        return null;
-      }
+      // foldMaxValue(String property) {
+      //   return (value, element) {
+      //     final weight = double.parse(element[property]);
+      //     if (weight > value) {
+      //       return weight;
+      //     } else {
+      //       return value;
+      //     }
+      //   };
+      // }
+      // try {
+      //   var maxWeight =
+      //       lastSession.maxWeight;
+      //   var maxRepetitions = lastSession.maxReps as double;
+      //   return Map.from(<String, dynamic>{
+      //     'maxWeight': maxWeight,
+      //     'maxRepetitions': maxRepetitions
+      //   });
+      // } catch (e) {
+      //   print(e.toString());
+      //   return null;
+      // }
+      return lastSession;
     }
 
-    var repetitionsInitialValue = getRepetitionsInitialValue();
+    var maxValues = getMaxValuesLastSession();
 
     return FutureBuilder(
         future: exercises,
@@ -145,7 +169,6 @@ class _AddSessionFormState extends State<AddSessionForm> {
                 TextFormField(
                   decoration: InputDecoration(labelText: "Peso"),
                   keyboardType: TextInputType.number,
-                  initialValue: lastSession?.weight ?? '',
                   onChanged: (event) {
                     try {
                       setWeight(double.parse(event));
@@ -154,11 +177,10 @@ class _AddSessionFormState extends State<AddSessionForm> {
                     }
                   },
                 ),
-                Text(lastSession?.weight ?? ''),
+                Text(maxValues != null ? maxValues.maxWeight : ''),
                 TextFormField(
                   decoration: InputDecoration(labelText: "Repeticiones"),
                   keyboardType: TextInputType.number,
-                  initialValue: repetitionsInitialValue,
                   onChanged: (event) {
                     try {
                       setRepetitions(int.parse(event));
@@ -167,7 +189,7 @@ class _AddSessionFormState extends State<AddSessionForm> {
                     }
                   },
                 ),
-                Text(lastSession?.repetitions.toString() ?? ''),
+                Text(maxValues != null ? maxValues.maxReps.toString() : ''),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -218,7 +240,7 @@ class ExercsisesDropDown extends StatelessWidget {
         items: exercises.map<DropdownMenuItem<String>>((Exercise ex) {
           return DropdownMenuItem<String>(
             value: ex.uuid,
-            child: Text(ex.name),
+            child: Text(ex.name ?? ""),
           );
         }).toList());
   }
@@ -234,12 +256,12 @@ class TodayHistoryList extends StatefulWidget {
 }
 
 class _TodayHistoryListState extends State {
-  late Future<List<TempSession>> sessions;
+  late Future<List<TrainingSessionSet>> sessions;
 
   @override
   void initState() {
     super.initState();
-    sessions = GetSessions().getSessions('today');
+    sessions = GetSets().getSets('today');
   }
 
   @override
@@ -253,7 +275,7 @@ class _TodayHistoryListState extends State {
           if (!snapshot.hasData) {
             return const Text('loading');
           }
-          return HistoryListWidget(sessions: snapshot.data!);
+          return HistoryListWidget(sets: snapshot.data!);
         });
   }
 }

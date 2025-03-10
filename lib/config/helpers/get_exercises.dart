@@ -8,6 +8,8 @@ class GetExercises {
 
 
     final data = response.data['data'];
+    print('-----------GET-EXERCISES');
+    print(data);
     return List<Exercise>.from(data.map((x) => Exercise.fromJsonMap(x)));
   }
 }
