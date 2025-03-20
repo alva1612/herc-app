@@ -28,6 +28,20 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        
+        flavorDimensions "env"
+
+        productFlavors {
+            dev {
+                dimension "env"
+                applicationIdSuffix ".dev"
+                versionNameSuffix "-dev"
+            }
+            staging {
+                dimension "env"
+            }
+        }
     }
 
     buildTypes {

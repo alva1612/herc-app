@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/config/helpers/get_sets.dart';
-import 'package:namer_app/domain/entities/training_session_set.dart';
+import 'package:namer_app/config/helpers/get_sessions.dart';
+import 'package:namer_app/domain/entities/training_session.dart';
 import 'package:namer_app/presentation/widgets/history_list_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -28,12 +28,12 @@ class HistoryList extends StatefulWidget {
 }
 
 class _HistoryListState extends State<HistoryList> {
-  late Future<List<TrainingSessionSet>> sessions;
+  late Future<List<TrainingSession>> sessions;
 
   @override
   void initState() {
     super.initState();
-    sessions = GetSets().getSets(null);
+    sessions = GetSessions().getSessions(null);
   }
 
   @override
@@ -42,6 +42,7 @@ class _HistoryListState extends State<HistoryList> {
         future: sessions,
         builder: (contextFuture, snapshot) {
           if (snapshot.hasError) {
+            print(snapshot.error);
             return const Text('error');
           }
           if (!snapshot.hasData) {
@@ -49,7 +50,7 @@ class _HistoryListState extends State<HistoryList> {
           }
           print('---SESSION GROUPS RAW');
           print(sessions);
-          return HistoryListWidget(sets: snapshot.data!);
+          return SessionHistoryList(sessions: snapshot.data!);
         });
   }
 }

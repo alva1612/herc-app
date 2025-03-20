@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(options.baseUrl);
     return MaterialApp(
       title: 'Namer App',
       theme: ThemeData(
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.tealAccent),
           textTheme: Theme.of(context)
               .textTheme
-              .apply(bodyColor: Colors.white, displayColor: Colors.white38)),
+              .apply(bodyColor: Colors.red, displayColor: Colors.white)),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
@@ -103,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 padding: EdgeInsets.only(top: 10),
                 margin: EdgeInsets.only(top: 24),
-                color: Color.fromRGBO(25, 33, 38, 1),
+                color: Colors.black,
                 child: page,
               ),
             ),

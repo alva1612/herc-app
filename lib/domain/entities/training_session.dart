@@ -18,10 +18,10 @@ class TrainingSession {
   factory TrainingSession.fromJsonMap(Map<String, dynamic> json) =>
       TrainingSession(
           uuid: json['uuid'],
-          dateStart: json['dateStart'],
+          dateStart: DateTime.parse(json['dateStart']),
           dateEnd: json['dateEnd'],
-          trainingSets: json['trainingSets'],
-          dateRegistered: json['dateRegistered']);
+          trainingSets: (json['trainingSets'] as List<dynamic>).map((e) => TrainingSessionSet.fromJsonMap(e)).toList(),
+          dateRegistered: DateTime.parse(json['dateRegistered']));
 }
 
 class TrainingSessionCreateData {
