@@ -22,6 +22,10 @@ class TrainingSession {
           dateEnd: json['dateEnd'],
           trainingSets: (json['trainingSets'] as List<dynamic>).map((e) => TrainingSessionSet.fromJsonMap(e)).toList(),
           dateRegistered: DateTime.parse(json['dateRegistered']));
+
+  String getDateStartText() {
+    return "${dateStart.day}/${dateStart.month}/${dateStart.year}";
+  }
 }
 
 class TrainingSessionCreateData {

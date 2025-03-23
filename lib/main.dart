@@ -3,6 +3,7 @@ import 'package:namer_app/config/http/client.dart';
 import 'package:namer_app/presentation/screens/add_session_screen.dart';
 import 'package:namer_app/presentation/screens/exercises_screen.dart';
 import 'package:namer_app/presentation/screens/history_screen.dart';
+import 'package:namer_app/presentation/styles/my_colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 padding: EdgeInsets.only(top: 10),
                 margin: EdgeInsets.only(top: 24),
-                color: Colors.black,
+                color: MyColors.bg,
                 child: page,
               ),
             ),

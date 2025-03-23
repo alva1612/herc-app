@@ -6,7 +6,6 @@ class GetExercises {
   Future<List<Exercise>> getExercises() async {
     final response = await client.get('exercise');
 
-
     final data = response.data['data'];
     print('-----------GET-EXERCISES');
     print(data);

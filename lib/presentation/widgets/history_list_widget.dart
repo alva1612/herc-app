@@ -41,7 +41,9 @@ class SessionHistoryList extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       children: [
-        ...sessions.map((e) => HistorySessionCard(session: e,))
+        ...sessions.map((e) => HistorySessionCard(
+              session: e,
+            ))
       ],
     );
   }
@@ -50,22 +52,49 @@ class SessionHistoryList extends StatelessWidget {
 class HistorySessionCard extends StatelessWidget {
   final TrainingSession session;
 
-  const HistorySessionCard({
-    super.key,
-    required this.session
-  });
-  
+  const HistorySessionCard({super.key, required this.session});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: DecoratedBox(
-      decoration: BoxDecoration(color: MyColors.cardBg, borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        children: [Row(), ...session.trainingSets.map((set) => HistorySetRow(set: set,)
-        )],
+        decoration: BoxDecoration(
+            color: MyColors.cardBg, borderRadius: BorderRadius.circular(15)),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 5, 10, 15),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        session.uuid,
+                        maxLines: 1,
+                        softWrap: false,
+                        style: tHistorySessionCardTitle,
+                      ),
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          session.getDateStartText(),
+                          style: tHistorySecondaryText,
+                          textAlign: TextAlign.end,
+                        ))
+                  ],
+                ),
+              ),
+              ...session.trainingSets.map((set) => HistorySetRow(
+                    set: set,
+                  ))
+            ],
+          ),
+        ),
       ),
-    ),
     );
   }
 }
@@ -89,7 +118,7 @@ class HistorySetRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
           child: Text(
             volumeText,
-            style: TextStyle(color: MyColors.textSecondary),
+            style: tHistorySecondaryText,
           ),
         ),
       ]),
