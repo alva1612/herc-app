@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/config/http/client.dart';
+import 'package:namer_app/config/router/app_router.dart';
 import 'package:namer_app/presentation/screens/add_session_screen.dart';
+import 'package:namer_app/presentation/screens/core_config_screen.dart';
 import 'package:namer_app/presentation/screens/exercises_screen.dart';
 import 'package:namer_app/presentation/screens/history_screen.dart';
+import 'package:namer_app/presentation/screens/home_screen.dart';
 import 'package:namer_app/presentation/styles/my_colors.dart';
 
 void main() {
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(options.baseUrl);
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Namer App',
       theme: ThemeData(
           useMaterial3: true,
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.dark,
-      home: MyHomePage(),
+      routerConfig: appRouter,
     );
   }
 }
@@ -74,44 +77,46 @@ class _MyHomePageState extends State<MyHomePage> {
     // ScreenConfiguration config = configs[selectedIndex] ?? configs[-1]!;
     // var screenTitle = config.title;
 
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            NavigationRail(
-              extended: constraints.maxWidth >= 600,
-              destinations: [
-                const NavigationRailDestination(
-                  icon: Icon(Icons.fitness_center),
-                  label: Text('Home'),
-                ),
-                const NavigationRailDestination(
-                  icon: Icon(Icons.history),
-                  label: Text('Favorites'),
-                ),
-                const NavigationRailDestination(
-                    icon: Icon(Icons.settings), label: Text('Settings'))
-              ],
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (value) {
-                setState(() {
-                  selectedIndex = value;
-                });
-                print('selected: $value');
-              },
-            ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(top: 10),
-                margin: EdgeInsets.only(top: 24),
-                color: MyColors.bg,
-                child: page,
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+    return CoreConfigScreen();
+    // return LayoutBuilder(builder: (context, constraints) {
+    //   return Scaffold(
+    //     body: Row(
+    //       mainAxisSize: MainAxisSize.max,
+    //       children: [
+    //         NavigationRail(
+    //           extended: constraints.maxWidth >= 600,
+    //           destinations: [
+    //             const NavigationRailDestination(
+    //               icon: Icon(Icons.fitness_center),
+    //               label: Text('Home'),
+    //             ),
+    //             const NavigationRailDestination(
+    //               icon: Icon(Icons.history),
+    //               label: Text('Favorites'),
+    //             ),
+    //             const NavigationRailDestination(
+    //                 icon: Icon(Icons.settings), label: Text('Settings'))
+    //           ],
+    //           selectedIndex: selectedIndex,
+    //           onDestinationSelected: (value) {
+    //             setState(() {
+    //               selectedIndex = value;
+    //             });
+    //             print('selected: $value');
+    //           },
+    //         ),
+    //         Expanded(
+    //           child: Container(
+    //             padding: EdgeInsets.only(top: 10),
+    //             margin: EdgeInsets.only(top: 24),
+    //             color: MyColors.bg,
+    //             child: page,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     // bottomNavigationBar: NavigationBar(destinations: destinations),
+    //   );
+    // });
   }
 }

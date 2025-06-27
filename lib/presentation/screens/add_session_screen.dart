@@ -73,10 +73,7 @@ class AddSessionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AddSessionScreenState(),
-      child: AddSessionScreenLayout(),
-    );
+    return Scaffold(body: AddSessionScreenLayout());
   }
 }
 
@@ -91,20 +88,37 @@ class _AddSessionScreenState extends State {
     exercises = GetExercises().getExercises();
   }
 
+  refreshHistory() {
+    setState(() {
+      sessions = GetSessions().getSessions('today');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: 40,
       mainAxisSize: MainAxisSize.max,
       children: [
-        AddSessionForm(
-          exercises: exercises,
+        ChangeNotifierProvider(
+          create: (context) => AddSessionScreenState(),
+          child: AddSessionForm(
+            exercises: exercises,
+            onAddSessionComplete: refreshHistory,
+          ),
         ),
         Expanded(
-          child: TodayHistoryListWithFuture(
-            sessions: sessions,
-          ),
-        )
+            child: FutureBuilder(
+                future: sessions,
+                builder: (contextFuture, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('error');
+                  }
+                  if (!snapshot.hasData) {
+                    return const Text('loading');
+                  }
+                  return SessionHistoryList(sessions: snapshot.data!);
+                }))
       ],
     );
   }

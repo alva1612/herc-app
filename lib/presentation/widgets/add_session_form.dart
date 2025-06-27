@@ -5,9 +5,12 @@ import 'package:provider/provider.dart';
 
 class AddSessionForm extends StatefulWidget {
   final Future<List<Exercise>> exercises;
+  final Function? onAddSessionComplete;
+  
   const AddSessionForm({
     super.key,
-    required this.exercises
+    required this.exercises,
+    this.onAddSessionComplete,
   });
 
   @override
@@ -28,6 +31,13 @@ class _AddSessionFormState extends State<AddSessionForm> {
 
     var lastSession = formState.getLastSessionByExercise();
     var maxValues = lastSession;
+
+    onCreateExercise() async {
+      await addToHistory();
+      if (widget.onAddSessionComplete != null) {
+        widget.onAddSessionComplete!();
+      }
+    }
 
     return FutureBuilder(
         future: widget.exercises,
@@ -81,7 +91,7 @@ class _AddSessionFormState extends State<AddSessionForm> {
                     ElevatedButton.icon(
                       onPressed: () {
                         // appState.toggleFavorite();
-                        addToHistory();
+                        onCreateExercise();
                       },
                       label: Text('Save'),
                     ),

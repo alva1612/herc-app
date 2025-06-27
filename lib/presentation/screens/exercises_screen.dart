@@ -23,24 +23,26 @@ class _ExercisesScreen extends State<ExercisesScreenStateful> {
     var isOpenNewExerciseToggle = screenState.newExerciseToggle;
     var toggleNewExercise = screenState.toggleNewExercise;
 
-    return Column(children: [
-      ExpansionPanelList(
-        expansionCallback: (int index, bool isOpen) {
-          toggleNewExercise(isOpen);
-        },
-        children: [
-          ExpansionPanel(
-              headerBuilder: (BuildContext context, bool isExpanded) {
-                return ListTile(
-                  title: Text('Nuevo'),
-                );
-              },
-              body: NewExerciseWidget(),
-              isExpanded: isOpenNewExerciseToggle,
-              canTapOnHeader: true)
-        ],
-      ),
-      ExerciseListWidget()
-    ]);
+    return Scaffold(
+      body: Column(children: [
+        ExpansionPanelList(
+          expansionCallback: (int index, bool isOpen) {
+            toggleNewExercise(isOpen);
+          },
+          children: [
+            ExpansionPanel(
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return ListTile(
+                    title: Text('Nuevo'),
+                  );
+                },
+                body: NewExerciseWidget(),
+                isExpanded: isOpenNewExerciseToggle,
+                canTapOnHeader: true)
+          ],
+        ),
+        ExerciseListWidget()
+      ]),
+    );
   }
 }
