@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 class HistoryListState extends ChangeNotifier {}
 
 class HistoryScreen extends StatelessWidget {
+
+  static const String name = 'history_screen';
+
   const HistoryScreen({super.key});
 
   @override

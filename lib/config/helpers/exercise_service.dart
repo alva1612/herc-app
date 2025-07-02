@@ -7,7 +7,9 @@ import 'package:namer_app/domain/entities/exercise.dart';
 class ExerciseService {
   Future<bool> create(ExerciseCreateData exercise) async {
     try {
-      var res = await client.post('exercise', data: jsonEncode(exercise));
+      final data = jsonEncode(exercise);
+      print(data);
+      var res = await client.post('exercise', data: data);
       print(res);
       return true;
     } catch (e) {

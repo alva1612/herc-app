@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:namer_app/presentation/providers/exercises_screen_provider.dart';
+import 'package:namer_app/presentation/screens/exercises/new_exercise_screen.dart';
 import 'package:namer_app/presentation/widgets/exercise_list_widget.dart';
-import 'package:namer_app/presentation/widgets/new_exercise_widget.dart';
 import 'package:provider/provider.dart';
 
 class ExercisesScreen extends StatelessWidget {
+  static final name = 'exercises_screen';
+
   @override
   Widget build(BuildContext context) {
     return ExercisesScreenProvider(child: ExercisesScreenStateful());
@@ -24,23 +27,15 @@ class _ExercisesScreen extends State<ExercisesScreenStateful> {
     var toggleNewExercise = screenState.toggleNewExercise;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ejercicios'),
+      ),
       body: Column(children: [
-        ExpansionPanelList(
-          expansionCallback: (int index, bool isOpen) {
-            toggleNewExercise(isOpen);
-          },
-          children: [
-            ExpansionPanel(
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return ListTile(
-                    title: Text('Nuevo'),
-                  );
-                },
-                body: NewExerciseWidget(),
-                isExpanded: isOpenNewExerciseToggle,
-                canTapOnHeader: true)
-          ],
-        ),
+        ElevatedButton(
+            onPressed: () {
+              context.pushNamed(NewExerciseScreen.name);
+            },
+            child: Text('Nuevo')),
         ExerciseListWidget()
       ]),
     );

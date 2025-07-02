@@ -3,7 +3,7 @@ import 'package:namer_app/config/http/client.dart';
 import 'package:namer_app/config/router/app_router.dart';
 import 'package:namer_app/presentation/screens/add_session_screen.dart';
 import 'package:namer_app/presentation/screens/core_config_screen.dart';
-import 'package:namer_app/presentation/screens/exercises_screen.dart';
+import 'package:namer_app/presentation/screens/exercises/exercises_screen.dart';
 import 'package:namer_app/presentation/screens/history_screen.dart';
 import 'package:namer_app/presentation/screens/home_screen.dart';
 import 'package:namer_app/presentation/styles/my_colors.dart';

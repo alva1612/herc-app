@@ -7,6 +7,7 @@ class NewExerciseFormState extends ChangeNotifier {
   ExerciseCreateData newExercise = ExerciseCreateData();
 
   Future<void> createExercise() async {
+    print(newExercise);
     var creationFuture = await ExerciseService().create(newExercise);
     if (creationFuture) {
       clear();
@@ -21,6 +22,11 @@ class NewExerciseFormState extends ChangeNotifier {
 
   setDescription(String d) {
     newExercise.setDescription(d);
+    notifyListeners();
+  }
+
+  setMuscleSectionExercises(List<MuscleExerciseOnCreate> me) {
+    newExercise.setMuscleExercises(me);
     notifyListeners();
   }
 
