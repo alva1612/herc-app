@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/config/helpers/create_temp_session.dart';
-import 'package:namer_app/config/helpers/get_exercises.dart';
+import 'package:namer_app/config/helpers/exercise_service.dart';
 import 'package:namer_app/config/helpers/get_sessions.dart';
 import 'package:namer_app/domain/entities/exercise.dart';
 import 'package:namer_app/domain/entities/training_session.dart';
@@ -27,7 +27,7 @@ class AddSessionScreenState extends ChangeNotifier {
     notifyListeners();
   }
 
-  setSelectedExercise(String exerciseUuid) async {
+  Future<void> setSelectedExercise(String exerciseUuid) async {
     trainingSession.setExercise(Exercise(uuid: exerciseUuid));
     if (lastSessionsByExerciseUuid[exerciseUuid] == null) {
       var lastSession =
@@ -50,12 +50,12 @@ class AddSessionScreenState extends ChangeNotifier {
     notifyListeners();
   }
 
-  setReps(int reps) {
+  void setReps(int reps) {
     trainingSession.setReps(reps);
     notifyListeners();
   }
 
-  setWeight(double w) {
+  void setWeight(double w) {
     trainingSession.setWeight(w);
     notifyListeners();
   }
@@ -85,10 +85,10 @@ class _AddSessionScreenState extends State {
   void initState() {
     super.initState();
     sessions = GetSessions().getSessions('today');
-    exercises = GetExercises().getExercises();
+    exercises = ExerciseService.getExercises();
   }
 
-  refreshHistory() {
+  void refreshHistory() {
     setState(() {
       sessions = GetSessions().getSessions('today');
     });

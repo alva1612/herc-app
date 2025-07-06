@@ -67,8 +67,6 @@ class MuscleSectionService {
     final response = await client.get('muscle');
     final data = response.data['data'];
 
-    print('---------------------GETMUSCLE_SECTIONS');
-    print(data);
     return List<MuscleSection>.from(data.map((x) => MuscleSection.fromJson(x)));
   }
 }
