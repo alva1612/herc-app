@@ -1,3 +1,5 @@
+import 'package:namer_app/presentation/widgets/ui/generic_list_widget.dart';
+
 class Exercise {
   final String? uuid;
   final String? name;
@@ -11,6 +13,11 @@ class Exercise {
     data['name'] = name;
     data['description'] = description;
     return data;
+  }
+
+  GenericListItem toGenericListItems() {
+    return GenericListItem(
+        title: name ?? "No Name", subtitle: description ?? "No Description");
   }
 
   factory Exercise.fromJsonMap(Map<String, dynamic> json) {
@@ -29,15 +36,15 @@ class MuscleExerciseOnCreate {
 
   MuscleExerciseOnCreate({this.description, this.effort, this.muscleSectionId});
 
-  setMuscleSectionId(String id) {
+  void setMuscleSectionId(String id) {
     muscleSectionId = id;
   }
 
-  setEffort(int effortValue) {
+  void setEffort(int effortValue) {
     effort = effortValue;
   }
 
-  setDescription(String desc) {
+  void setDescription(String desc) {
     description = desc;
   }
 
@@ -58,15 +65,15 @@ class ExerciseCreateData {
   ExerciseCreateData(
       {this.description, this.name, this.muscleSectionexercises = const []});
 
-  setName(String n) {
+  void setName(String n) {
     name = n;
   }
 
-  setDescription(String desc) {
+  void setDescription(String desc) {
     description = desc;
   }
 
-  setMuscleExercises(List<MuscleExerciseOnCreate> newRelations) {
+  void setMuscleExercises(List<MuscleExerciseOnCreate> newRelations) {
     print('--------------setMuscleExercises');
     print(muscleSectionexercises);
     muscleSectionexercises = newRelations;

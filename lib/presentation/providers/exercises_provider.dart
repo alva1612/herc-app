@@ -8,12 +8,12 @@ part 'exercises_provider.g.dart';
 class ExerciseList extends _$ExerciseList {
   @override
   Future<List<Exercise>> build() async {
-    return ExerciseService.getExercises();
+    return ExerciseService.get();
   }
 
   Future<void> refresh() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => ExerciseService.getExercises());
+    state = await AsyncValue.guard(() => ExerciseService.get());
   }
 
   Future<void> delete(String exerciseUuid) async {
@@ -22,7 +22,6 @@ class ExerciseList extends _$ExerciseList {
     print(success);
     if (success) {
       state = AsyncValue.data(state.value!.where((e) => e.uuid != exerciseUuid).toList());
-      await refresh();
     }
   }
 }

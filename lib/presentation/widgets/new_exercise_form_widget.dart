@@ -26,7 +26,7 @@ class _NewExerciseFormState extends State<NewExerciseForm> {
   @override
   void initState() {
     super.initState();
-    muscleSections = MuscleSectionService.getMuscleSections('');
+    muscleSections = MuscleSectionService.get('');
   }
 
   @override

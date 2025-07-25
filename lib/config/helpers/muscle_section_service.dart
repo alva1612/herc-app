@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:namer_app/config/http/client.dart';
+import 'package:namer_app/presentation/widgets/ui/generic_list_widget.dart';
 
 List<MuscleSection> muscleSectionFromJson(String str) => List<MuscleSection>.from(json.decode(str).map((x) => MuscleSection.fromJson(x)));
 
@@ -60,13 +61,30 @@ class MuscleSection {
         "description": description,
         "muscleSectionExercises": muscleSectionExercises == null ? [] : List<dynamic>.from(muscleSectionExercises!.map((x) => x.toJson())),
     };
+
+    GenericListItem toGenericListItem() {
+      return GenericListItem(
+        title: name,
+        subtitle: description ?? '',
+      );
+    }
 }
 
 class MuscleSectionService {
-  static Future<List<MuscleSection>> getMuscleSections(String expand) async {
+  static Future<List<MuscleSection>> get(String expand) async {
     final response = await client.get('muscle');
     final data = response.data['data'];
 
     return List<MuscleSection>.from(data.map((x) => MuscleSection.fromJson(x)));
+  }
+
+  static Future<bool> delete(String uuid) async {
+    try {
+      final response = await client.delete('muscle/$uuid');
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }

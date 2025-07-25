@@ -73,7 +73,7 @@ class _FilterSectionState extends ConsumerState<FilterSection> {
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<MuscleSection>> muscleSections =
-        ref.watch(muscleSectionsProvider);
+        ref.watch(muscleSectionsListProvider);
 
     return SizedBox(
         child: Card(

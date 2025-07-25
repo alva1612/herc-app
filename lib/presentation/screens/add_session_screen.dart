@@ -85,7 +85,7 @@ class _AddSessionScreenState extends State {
   void initState() {
     super.initState();
     sessions = GetSessions().getSessions('today');
-    exercises = ExerciseService.getExercises();
+    exercises = ExerciseService.get();
   }
 
   void refreshHistory() {

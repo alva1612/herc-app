@@ -30,7 +30,7 @@ class ExerciseService {
     return false;
   }
   
-  static Future<List<Exercise>> getExercises() async {
+  static Future<List<Exercise>> get() async {
     try {
       var res = await client.get('exercise');
       final data = res.data['data'];
